@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painter's Algorithm</title>
+</head>
+
+<body>
+    <!-- Create a title to display in the browser -->
+    <h1>Painter's Algorithm</h1>
+
+    <!-- Create a canvas element for rendering the graphics -->
+    <canvas id="glCanvas" width="800" height="600">
+        Your browser does not support the HTML5 canvas element.
+    </canvas>
+
+    <!-- Create the vertex shader handling the vertex positions and transformations -->
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        #version 300 es    // Version of GLSL for WebGL 2.0
+
+        // Get position and color data from the WebGL buffers for each vertex. "in" data that can be different for each vertex
+        in vec4 aPosition;
+        in vec4 aColor;
+
+        // Pass the color data to the fragment shader through the varying variable. "out" data passed to the next stage of the pipeline
+        out vec4 vColor;
+
+        // Main function executed for each vertex
+        void main() {
+            // Set the position of the current vertex in clip space
+            gl_Position = aPosition;
+
+            // Pass the color data to the fragment shader
+            vColor = aColor;
+        }
+    </script>
+
+    <!-- Create the fragment shader -->
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        #version 300 es     // Version of GLSL for WebGL 2.0
+
+        // Set the precision for floating-point calculations in the fragment shader
+        precision mediump float;
+
+        // Get the interpolated color data from the vertex shader
+        // "in" data that is interpolated for each fragment
+        in vec4 vColor;
+
+        // Output color for the current fragment
+        out vec4 fColor;
+
+        // Main function executed for each fragment
+        void main() {
+
+            // Set the output color for the current fragment
+            fColor = vColor;
+        }
+    </script>
+
+    <!-- Include the JavaScript file that contains the WebGL setup and rendering logic -->
+    <script src="paintersAlg.js"></script>
+
+</body>
+</html>
