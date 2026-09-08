@@ -8,9 +8,21 @@ var program;
 
 // Define the vertices for a triangle
 var points = [
-    -0.5, -0.4, 0.0,
-    0.5, -0.4, 0.0,
-    0.0, 0.5, 0.0
+
+    // Farthest triangle
+    -0.6, -0.4, 0.5,
+    0.4, -0.4, 0.5,
+    -0.1, 0.6, 0.5,
+
+    // // Middle triangle
+    // -0.4, -0.5, 0.0,
+    // 0.6, -0.5, 0.0,
+    // 0.1, 0.5, 0.0,
+
+    // // Nearest triangle
+    // -0.5, -0.6, -0.5,
+    // 0.5, -0.6, -0.5,
+    // 0.0, 0.4, -0.5
 ];
 
 // Define the colors for each vertex of the triangle
