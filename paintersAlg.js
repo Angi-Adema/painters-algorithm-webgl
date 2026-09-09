@@ -6,30 +6,38 @@
 var gl;
 var program;
 
-// Define the vertices for a triangle
-var points = [
-
+// Create three separate triangles with different colors and distances from the viewer
+var triangles = [
     // Farthest triangle
-    -0.6, -0.4, 0.5,
-    0.4, -0.4, 0.5,
-    -0.1, 0.6, 0.5,
-
-    // // Middle triangle
-    // -0.4, -0.5, 0.0,
-    // 0.6, -0.5, 0.0,
-    // 0.1, 0.5, 0.0,
-
-    // // Nearest triangle
-    // -0.5, -0.6, -0.5,
-    // 0.5, -0.6, -0.5,
-    // 0.0, 0.4, -0.5
-];
-
-// Define the colors for each vertex of the triangle
-var colors = [
-    0.239, 0.192, 0.357, 1.0,  // Purple
-    0.267, 0.294, 0.431, 1.0,  // Blue
-    0.439, 0.545, 0.459, 1.0   // Green
+    {
+        distance: 3,
+        vertices: [
+            -0.6, -0.4, 0.5,
+            0.4, -0.4, 0.5,
+            -0.1, 0.6, 0.5
+        ],
+        color: [0.239, 0.192, 0.357, 1.0]  // Purple
+    },
+    // Middle triangle
+    {
+        distance: 2,
+        vertices: [
+            -0.4, -0.5, 0.0,
+            0.6, -0.5, 0.0,
+            0.1, 0.5, 0.0
+        ],
+        color: [0.267, 0.294, 0.431, 1.0]  // Blue
+    },
+    // Nearest triangle
+    {
+        distance: 1,    
+        vertices: [
+            -0.5, -0.6, -0.5,
+            0.5, -0.6, -0.5,
+            0.0, 0.4, -0.5
+        ],
+        color: [0.439, 0.545, 0.459, 1.0]  // Green
+    }
 ];
 
 window.onload = function init() {
