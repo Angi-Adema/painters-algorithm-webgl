@@ -10,7 +10,7 @@ var program;
 var triangles = [
     // Farthest triangle
     {
-        distance: 3,
+        distance: 1,
         vertices: [
             -0.3, -0.4, 0.5,
             0.7, -0.4, 0.5,
@@ -20,7 +20,7 @@ var triangles = [
     },
     // Middle triangle
     {
-        distance: 2,
+        distance: 3,
         vertices: [
             -0.7, -0.5, 0.0,
             0.3, -0.5, 0.0,
@@ -30,7 +30,7 @@ var triangles = [
     },
     // Nearest triangle
     {
-        distance: 1,    
+        distance: 2,    
         vertices: [
             -0.5, -0.6, -0.5,
             0.5, -0.6, -0.5,
