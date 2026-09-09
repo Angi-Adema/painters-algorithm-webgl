@@ -22,7 +22,7 @@ var program;
 
 // Create three separate triangles with different colors and distances from the viewer
 var triangles = [
-    // Farthest triangle
+    // Nearest triangle
     {
         distance: 1,
         vertices: [
@@ -32,7 +32,7 @@ var triangles = [
         ],
         color: [0.239, 0.192, 0.357, 1.0]  // Purple
     },
-    // Middle triangle
+    // Farthest triangle
     {
         distance: 3,
         vertices: [
@@ -42,7 +42,7 @@ var triangles = [
         ],
         color: [0.267, 0.294, 0.431, 1.0]  // Blue
     },
-    // Nearest triangle
+    // Middle triangle
     {
         distance: 2,    
         vertices: [
