@@ -1,4 +1,18 @@
-
+/*
+ * paintersAlg.js
+ * The basic WebGL setup and rendering structure was adapted from the example code
+ * project provided with the textbook Interactive Computer Graphics: A Top-Down Approach 
+ * with WebGL, 8th Edition, by Edward Angel and Dave Shreiner.
+ * 
+ * The Painter's Algorithm implementation applies the back-to-front rendering technique
+ * described by Angel and Shreiner.
+ * 
+ * JavaScript Array.sort() technique is based on MDN Web Docs.
+ * 
+ * Sources: 
+ * https://www.interactivecomputergraphics.com/Code/03/square.js
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+*/
 // Used to help catch errors while coding
 "use strict";
 
