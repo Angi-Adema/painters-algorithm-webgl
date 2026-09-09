@@ -63,25 +63,26 @@ window.onload = function init() {
     // Use the created program
     gl.useProgram(program);
 
-    // Create and bind a buffer for the vertex positions
-    var positionBuffer = gl.createBuffer();   // Create a buffer for the vertex positions
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);   // Bind the position buffer to the ARRAY_BUFFER target
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.STATIC_DRAW);  // Upload the vertex data to the GPU
+    // All of this is now being completed inside the for loop within render(). The for loop now iterates over each triangle, creating and binding buffers for their vertices and colors, and setting up the attribute pointers accordingly.
+    // // Create and bind a buffer for the vertex positions
+    // var positionBuffer = gl.createBuffer();   // Create a buffer for the vertex positions
+    // gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);   // Bind the position buffer to the ARRAY_BUFFER target
+    // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.STATIC_DRAW);  // Upload the vertex data to the GPU
 
-    // Get the location of the aPosition attribute in the shader program
-    var aPosition = gl.getAttribLocation(program, "aPosition");  // Get the location of the aPosition attribute in the shader program
-    gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0); // Specify how to pull the data from the buffer into the aPosition attribute
-    gl.enableVertexAttribArray(aPosition);   // Enable the aPosition attribute for use in the vertex shader
+    // // Get the location of the aPosition attribute in the shader program
+    // var aPosition = gl.getAttribLocation(program, "aPosition");  // Get the location of the aPosition attribute in the shader program
+    // gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0); // Specify how to pull the data from the buffer into the aPosition attribute
+    // gl.enableVertexAttribArray(aPosition);   // Enable the aPosition attribute for use in the vertex shader
 
-    // Create and bind a buffer for the vertex colors
-    var colorBuffer = gl.createBuffer();   // Create a buffer for the vertex colors
-    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);   // Bind the color buffer to the ARRAY_BUFFER target
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);  // Upload the color data to the GPU
+    // // Create and bind a buffer for the vertex colors
+    // var colorBuffer = gl.createBuffer();   // Create a buffer for the vertex colors
+    // gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);   // Bind the color buffer to the ARRAY_BUFFER target
+    // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);  // Upload the color data to the GPU
 
-    // Get the location of the aColor attribute in the shader program
-    var aColor = gl.getAttribLocation(program, "aColor");  // Get the location of the aColor attribute in the shader program
-    gl.vertexAttribPointer(aColor, 4, gl.FLOAT, false, 0, 0); // Specify how to pull the data from the buffer into the aColor attribute
-    gl.enableVertexAttribArray(aColor);   // Enable the aColor attribute for use in the vertex shader
+    // // Get the location of the aColor attribute in the shader program
+    // var aColor = gl.getAttribLocation(program, "aColor");  // Get the location of the aColor attribute in the shader program
+    // gl.vertexAttribPointer(aColor, 4, gl.FLOAT, false, 0, 0); // Specify how to pull the data from the buffer into the aColor attribute
+    // gl.enableVertexAttribArray(aColor);   // Enable the aColor attribute for use in the vertex shader
 
     // Call the render function to draw the scene
     render();
@@ -91,6 +92,42 @@ window.onload = function init() {
 function render() {
     // Clear the color buffer to prepare for drawing the scene
     gl.clear(gl.COLOR_BUFFER_BIT);
+
+    // Sort the triangles according to their distance from farthest to nearest.
+    // Object sorting algorithm is based on the Array.sort() provided by MDN Web Docs.
+    // Back-to-front rendering is based on the Painter's Algorithm described by Angel and Shreiner (2020).
+    triangles.sort(function(a, b) {
+        return b.distance - a.distance;  // Sort in descending order of distance
+    });
+
+    // Loop through the triangles array and draw each triangle in order of distance (Painter's Algorithm)
+    for (var i = 0; i < triangles.length; i++) {
+
+        var triangle = triangles[i];  // Get the current triangle
+
+        var positionBuffer = gl.createBuffer();   // Create a buffer for the vertex positions
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);   // Bind the position buffer to the ARRAY_BUFFER target
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangle.points), gl.STATIC_DRAW);  // Upload the vertex data to the GPU
+
+        var aPosition = gl.getAttribLocation(program, "aPosition");  // Get the location of the aPosition attribute in the shader program
+        gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0); // Specify how to pull the data from the buffer into the aPosition attribute
+        gl.enableVertexAttribArray(aPosition);   // Enable the aPosition attribute for use in the vertex shader
+
+        // Define a color for each triangle vertex
+        var triangleColors = [
+            triangle.color[0], triangle.color[1], triangle.color[2], triangle.color[3],
+            triangle.color[0], triangle.color[1], triangle.color[2], triangle.color[3],
+            triangle.color[0], triangle.color[1], triangle.color[2], triangle.color[3]
+        ];
+
+        var colorBuffer = gl.createBuffer();   // Create a buffer for the vertex colors
+        gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);   // Bind the color buffer to the ARRAY_BUFFER target
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleColors), gl.STATIC_DRAW);  // Upload the color data to the GPU
+
+        var aColor = gl.getAttribLocation(program, "aColor");  // Get the location of the aColor attribute in the shader program
+        gl.vertexAttribPointer(aColor, 4, gl.FLOAT, false, 0, 0); // Specify how to pull the data from the buffer into the aColor attribute
+        gl.enableVertexAttribArray(aColor);   // Enable the aColor attribute for use in the vertex shader
+    }
 
     // Draw the triangle using the currently bound buffers and shaders
     gl.drawArrays(gl.TRIANGLES, 0, 3);
